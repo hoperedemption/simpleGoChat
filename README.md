@@ -1,5 +1,9 @@
 # 🌐 Minimal WebSocket Chat in Go
 
+<p align="center">
+  <img src="design.png" alt="System Design Diagram" width="600">
+</p>
+
 ## Description
 
 This project is minimal and simple chat application built using Go and WebSockets, with a lightweight frontend powered by HTMX. It allows multiple clients to exchange messages instantly via a web interface. 

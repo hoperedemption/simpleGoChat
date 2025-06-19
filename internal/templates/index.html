@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Go Chat</title>
+    <script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuWgKmO/gEJlBIlSJxlyRFFI0lQWVK/ntPGSxdMwIMwgnTjT7EULy//" crossorigin="anonymous"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        #chat-container {
+            width: 100%;
+            max-width: 600px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 80vh;
+        }
+        #messages {
+            flex-grow: 1;
+            padding: 15px;
+            overflow-y: auto;
+            border-bottom: 1px solid #eee;
+            scroll-behavior: smooth;
+        }
+        .message {
+            background-color: #e9e9e9;
+            padding: 8px 12px;
+            border-radius: 15px;
+            margin-bottom: 10px;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+        .message-sent {
+            background-color: #dcf8c6;
+            margin-left: auto;
+        }
+        .message-received {
+            background-color: #e9e9e9;
+            margin-right: auto;
+        }
+        #message-form {
+            display: flex;
+            padding: 15px;
+            border-top: 1px solid #eee;
+        }
+        #message-form input[type="text"] {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            margin-right: 10px;
+            font-size: 16px;
+        }
+        #message-form button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.2s ease;
+        }
+        #message-form button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div id="chat-container">
+        <div id="messages">
+            </div>
+        <form id="message-form" hx-ws="connect:ws" hx-on--ws-after-send="this.reset(); document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight;">
+            <input type="text" name="text" placeholder="Type a message..." required>
+            <button type="submit">Send</button>
+        </form>
+    </div>
+
+    <script>
+        // Optional: Scroll to bottom on initial load and when new messages arrive
+        document.addEventListener('DOMContentLoaded', () => {
+            const messagesDiv = document.getElementById('messages');
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        });
+
+        // HTMX will handle new messages via WebSocket pushing to #messages
+        // You might need a more sophisticated scroll management if you load a lot of history
+        // or want to maintain scroll position when new messages arrive while scrolling up.
+        // For simple chat, this should suffice.
+        document.getElementById('messages').addEventListener('htmx:afterOnLoad', function() {
+            this.scrollTop = this.scrollHeight;
+        });
+    </script>
+</body>
+</html>

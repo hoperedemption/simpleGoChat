@@ -19,7 +19,7 @@ This project is minimal and simple chat application built using Go and WebSocket
 - Used structured logging with `slog`
 - Buffered channels and timeout management for WebSocket connections
 
-**Key Go Concepts Demonstrated:**
+**Key Go Concepts I learned:**
 
 - Goroutines and channel communication
 - `context.Context` for cancellation and timeouts
